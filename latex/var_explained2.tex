@@ -1,0 +1,30 @@
+% https://tex.stackexchange.com/questions/134773/label-variables-of-equation-using-tikz-without-using-itemize
+
+
+
+% arara: pdflatex
+% !arara: indent: {overwrite: on}
+\documentclass{article}
+\usepackage{amsmath} % loaded automatically by beamer
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\tikzset{>=stealth}
+
+\newcommand{\tikzmark}[3][]{\tikz[overlay,remember picture,baseline] \node [anchor=base,#1](#2) {#3};}
+
+\begin{document}
+\begin{equation*}
+    \mathcal{A} = (\,\tikzmark{identity}{\texttt{I}} -\tikzmark[red]{G}{\texttt{G}}\,\,\, 
+    \tikzmark[blue]{L}{\texttt{L}} - \tikzmark[purple]{C}{\texttt{C }}\,)
+\end{equation*}
+\begin{tikzpicture}[overlay, remember picture,node distance =1.5cm]
+    \node (identitydescr) [below left=of identity ]{words};
+    \draw[,->,thick] (identitydescr) to [in=-90,out=90] (identity);
+    \node[red] (Gdescr) [below =of G]{other words};
+    \draw[red,->,thick] (Gdescr) to [in=-90,out=90] (G);
+    \node[blue,xshift=1cm] (Ldescr) [above right =of L]{some words};
+    \draw[blue,->,thick] (Ldescr) to [in=45,out=-90] (L.north);
+    \node[purple] (Cdescr) [below right =of C]{more words};
+    \draw[purple,->,thick] (Cdescr) to [in=-90,out=90] (C.south);
+\end{tikzpicture}
+\end{document}
